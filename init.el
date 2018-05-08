@@ -13,7 +13,7 @@
   ;; If there is more than one, they won't work right.
   '(package-selected-packages
      (quote
-       (dracula-theme flylisp ag smartparens web-mode ## flycheck projectile-rails projectile evil))))
+       (undohist auto-complete magit dracula-theme flylisp ag smartparens web-mode ## flycheck projectile-rails projectile evil))))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -21,42 +21,56 @@
   ;; If there is more than one, they won't work right.
   )
 
-; (add-to-list 'load-path "~/.emacs.d/evil")
-; (require 'evil)
-; (evil-mode t)
-; ;; The following snippet will make Evil treat an Emacs symbol as a word.
-; (with-eval-after-load 'evil
-;                       (defalias #'forward-evil-word #'forward-evil-symbol))
-
-
-
 (setq-default indent-tabs-mode nil)
 (setq ruby-insert-encoding-magic-comment nil)
 
 
 ;; Use projectile-rails as global mode
 
-(add-to-list 'load-path "~/.emacs.d/web-mode")
+;; web-mode
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 
 
 ;; Use projectile as global mode
-(add-to-list 'load-path "~/.emacs.d/projectile")
+;; projectile
 (projectile-global-mode)
 
 ;; Use projectile-rails as global mode
 ;; You can use Projectile's commands for greping (or acking) files, run tests, switch between projects, etc
-(add-to-list 'load-path "~/.emacs.d/projectile-rails")
+;; projectile-rails
 (projectile-rails-global-mode)
+;; dirty fix for having AC everywhere
+(define-globalized-minor-mode real-global-auto-complete-mode
+                              auto-complete-mode (lambda ()
+                                                   (if (not (minibufferp (current-buffer)))
+                                                     (auto-complete-mode 1))
+                                                   ))
+(real-global-auto-complete-mode t)
+;; ruby fold
+(add-hook 'ruby-mode-hook
+          (lambda () (hs-minor-mode)))
+(eval-after-load "hideshow"
+                 '(add-to-list 'hs-special-modes-alist
+                               `(ruby-mode
+                                  ,(rx (or "def" "class" "module" "do" "{" "[")) ; Block start
+                                  ,(rx (or "}" "]" "end"))                       ; Block end
+                                  ,(rx (or "#" "=begin"))                        ; Comment start
+                                  ruby-forward-sexp nil)))
+
+(global-set-key (kbd "C-c h") 'hs-hide-block)
+(global-set-key (kbd "C-c s") 'hs-show-block)
 
 ;; Smartparens is a minor mode for dealing with pairs in Emacs.
 ;; https://github.com/Fuco1/smartparens
-(add-to-list 'load-path "~/.emacs.d/smartparens")
-(require 'smartparens-config)
+;; (add-to-list 'load-path "~/.emacs.d/smartparens")
+;; (require 'smartparens-config)
 
-(add-to-list 'load-path "~/.emacs.d/flycheck")
+;; undo-tree
+(global-undo-tree-mode)
+
+;; flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
 (require 'ido)
@@ -86,6 +100,3 @@
       kept-old-versions 5    ; and how many of the old
       )
 (put 'dired-find-alternate-file 'disabled nil)
-;; (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-;;(load-theme 'dracula t)
-
