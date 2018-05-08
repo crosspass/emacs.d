@@ -1,25 +1,43 @@
-;; Added by Package.el.  This must come before configurations of
+;;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 
-;; You may delete these explanatory comments.
+; You may delete these explanatory comments.
 (setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
                          ("melpa" . "http://elpa.emacs-china.org/melpa/")))
 (package-initialize)
 
+; fetch the list of packages available
+(unless package-archive-contents
+  (package-refresh-contents))
+
+; list the packages you want
+(setq package-list '(undo-tree
+                     auto-complete
+                     magit
+                     ag
+                     web-mode
+                     flycheck
+                     projectile
+                     projectile-rails))
+; install the missing packages
+(dolist (package package-list)
+  (unless (package-installed-p package)
+    (package-install package)))
+
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
-  '(package-selected-packages
-     (quote
-       (undohist auto-complete magit dracula-theme flylisp ag smartparens web-mode ## flycheck projectile-rails projectile evil))))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (undohist auto-complete magit flylisp ag smartparens web-mode ## flycheck projectile-rails projectile))))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
-  )
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 
 (setq-default indent-tabs-mode nil)
 (setq ruby-insert-encoding-magic-comment nil)
@@ -35,7 +53,7 @@
 
 ;; Use projectile as global mode
 ;; projectile
-(projectile-global-mode)
+(projectile-mode)
 
 ;; Use projectile-rails as global mode
 ;; You can use Projectile's commands for greping (or acking) files, run tests, switch between projects, etc
