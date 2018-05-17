@@ -11,7 +11,8 @@
   (package-refresh-contents))
 
 ; list the packages you want
-(setq package-list '(undo-tree
+(setq package-list '(better-defaults
+                     undo-tree
                      auto-complete
                      magit
                      ag
