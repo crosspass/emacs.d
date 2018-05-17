@@ -1,3 +1,4 @@
+
 ;;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 
@@ -19,7 +20,11 @@
                      web-mode
                      flycheck
                      projectile
-                     projectile-rails))
+                     projectile-rails
+                     helm
+                     helm-projectile
+                     helm-ag
+                     ))
 ; install the missing packages
 (dolist (package package-list)
   (unless (package-installed-p package)
@@ -39,6 +44,13 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+;;
+(global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
+
+(global-set-key (kbd "M-x") #'helm-M-x)
+(global-set-key (kbd "M-o") #'helm-projectile-ag)
+(global-set-key (kbd "M-p") #'helm-projectile-find-file-dwim)
 
 (setq-default indent-tabs-mode nil)
 (setq ruby-insert-encoding-magic-comment nil)
