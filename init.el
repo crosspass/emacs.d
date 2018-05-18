@@ -2,17 +2,18 @@
 ;;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 
-; You may delete these explanatory comments.
+                                        ; You may delete these explanatory comments.
 (setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
                          ("melpa" . "http://elpa.emacs-china.org/melpa/")))
 (package-initialize)
 
-; fetch the list of packages available
+                                        ; fetch the list of packages available
 (unless package-archive-contents
   (package-refresh-contents))
 
-; list the packages you want
-(setq package-list '(undo-tree
+;; list the packages you want
+(setq package-list '(go-mode
+                     undo-tree
                      auto-complete
                      magit
                      ag
@@ -24,7 +25,7 @@
                      helm-projectile
                      helm-ag
                      ))
-; install the missing packages
+;; install the missing packages
 (dolist (package package-list)
   (unless (package-installed-p package)
     (package-install package)))
@@ -73,21 +74,21 @@
 (projectile-rails-global-mode)
 ;; dirty fix for having AC everywhere
 (define-globalized-minor-mode real-global-auto-complete-mode
-                              auto-complete-mode (lambda ()
-                                                   (if (not (minibufferp (current-buffer)))
-                                                     (auto-complete-mode 1))
-                                                   ))
+  auto-complete-mode (lambda ()
+                       (if (not (minibufferp (current-buffer)))
+                           (auto-complete-mode 1))
+                       ))
 (real-global-auto-complete-mode t)
 ;; ruby fold
 (add-hook 'ruby-mode-hook
           (lambda () (hs-minor-mode)))
 (eval-after-load "hideshow"
-                 '(add-to-list 'hs-special-modes-alist
-                               `(ruby-mode
-                                  ,(rx (or "def" "class" "module" "do" "{" "[")) ; Block start
-                                  ,(rx (or "}" "]" "end"))                       ; Block end
-                                  ,(rx (or "#" "=begin"))                        ; Comment start
-                                  ruby-forward-sexp nil)))
+  '(add-to-list 'hs-special-modes-alist
+                `(ruby-mode
+                  ,(rx (or "def" "class" "module" "do" "{" "[")) ; Block start
+                  ,(rx (or "}" "]" "end"))                       ; Block end
+                  ,(rx (or "#" "=begin"))                        ; Comment start
+                  ruby-forward-sexp nil)))
 
 (global-set-key (kbd "C-c h") 'hs-hide-block)
 (global-set-key (kbd "C-c s") 'hs-show-block)
@@ -130,3 +131,12 @@
       kept-old-versions 5    ; and how many of the old
       )
 (put 'dired-find-alternate-file 'disabled nil)
+
+(defun indent-buffer ()
+  "Indents an entire buffer using the default intenting scheme."
+  (interactive)
+  (save-excursion
+    (delete-trailing-whitespace)
+    (indent-region (point-min) (point-max) nil)
+    (untabify (point-min) (point-max))))
+(global-set-key "\C-x\\" 'indent-buffer)
