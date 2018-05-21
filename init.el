@@ -7,25 +7,26 @@
                          ("melpa" . "http://elpa.emacs-china.org/melpa/")))
 (package-initialize)
 
-; fetch the list of packages available
+;; fetch the list of packages available
 (unless package-archive-contents
   (package-refresh-contents))
 
-; list the packages you want
-(setq package-list '(better-defaults
-                     undo-tree
-                     auto-complete
-                     magit
-                     ag
-                     web-mode
-                     flycheck
-                     projectile
-                     projectile-rails
-                     helm
-                     helm-projectile
-                     helm-ag
-                     ))
-; install the missing packages
+
+;; list the packages you want
+(setq package-list '(counsel
+                      better-defaults
+                      elpy
+                      go-mode
+                      undo-tree
+                      auto-complete
+                      magit
+                      ag
+                      web-mode
+                      flycheck
+                      projectile
+                      projectile-rails
+                      ))
+;; install the missing packages
 (dolist (package package-list)
   (unless (package-installed-p package)
     (package-install package)))
@@ -47,10 +48,6 @@
 ;;
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
-
-(global-set-key (kbd "M-x") #'helm-M-x)
-(global-set-key (kbd "M-o") #'helm-projectile-ag)
-(global-set-key (kbd "M-p") #'helm-projectile-find-file-dwim)
 
 (setq-default indent-tabs-mode nil)
 (setq ruby-insert-encoding-magic-comment nil)
@@ -98,6 +95,9 @@
 ;; (add-to-list 'load-path "~/.emacs.d/smartparens")
 ;; (require 'smartparens-config)
 
+;; python
+(elpy-enable)
+
 ;; undo-tree
 (global-undo-tree-mode)
 
@@ -106,6 +106,28 @@
 
 (require 'ido)
 (ido-mode t)
+
+;;Ivy and Swiper
+
+(ivy-mode 1)
+(setq ivy-use-virtual-buffers t)
+(setq enable-recursive-minibuffers t)
+(global-set-key "\C-s" 'swiper)
+(global-set-key (kbd "C-c C-r") 'ivy-resume)
+(global-set-key (kbd "<f6>") 'ivy-resume)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "<f1> f") 'counsel-describe-function)
+(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+(global-set-key (kbd "<f1> l") 'counsel-find-library)
+(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+(global-set-key (kbd "C-c g") 'counsel-git)
+(global-set-key (kbd "C-c j") 'counsel-git-grep)
+(global-set-key (kbd "C-c k") 'counsel-ag)
+(global-set-key (kbd "C-x l") 'counsel-locate)
+(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+(define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
 
 (setq x-select-enable-clipboard t)
 
@@ -131,3 +153,12 @@
       kept-old-versions 5    ; and how many of the old
       )
 (put 'dired-find-alternate-file 'disabled nil)
+
+(defun indent-buffer ()
+  "Indents an entire buffer using the default intenting scheme."
+  (interactive)
+  (save-excursion
+    (delete-trailing-whitespace)
+    (indent-region (point-min) (point-max) nil)
+    (untabify (point-min) (point-max))))
+(global-set-key "\C-x\\" 'indent-buffer)
