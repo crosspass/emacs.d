@@ -1,8 +1,7 @@
-
 ;;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 
-; You may delete these explanatory comments.
+;; You may delete these explanatory comments.
 (setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
                          ("melpa" . "http://elpa.emacs-china.org/melpa/")))
 (package-initialize)
@@ -13,19 +12,20 @@
 
 
 ;; list the packages you want
-(setq package-list '(counsel
-                      better-defaults
-                      elpy
-                      go-mode
-                      undo-tree
-                      auto-complete
-                      magit
-                      ag
-                      web-mode
-                      flycheck
-                      projectile
-                      projectile-rails
-                      ))
+(setq package-list '(org
+                     counsel
+                     better-defaults
+                     elpy
+                     go-mode
+                     undo-tree
+                     auto-complete
+                     magit
+                     ag
+                     web-mode
+                     flycheck
+                     projectile
+                     projectile-rails
+                     ))
 ;; install the missing packages
 (dolist (package package-list)
   (unless (package-installed-p package)
@@ -60,6 +60,15 @@
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 
+(setq web-mode-enable-current-column-highlight t)
+(setq web-mode-css-indent-offset 2)
+(setq web-mode-scss-indent-offset 2)
+(setq web-mode-code-indent-offset 2)
+(setq web-mode-markup-indent-offset 2)
+(setq web-mode-enable-auto-pairing t)
+(setq web-mode-enable-auto-closing t)
+
+
 
 ;; Use projectile as global mode
 ;; projectile
@@ -71,21 +80,21 @@
 (projectile-rails-global-mode)
 ;; dirty fix for having AC everywhere
 (define-globalized-minor-mode real-global-auto-complete-mode
-                              auto-complete-mode (lambda ()
-                                                   (if (not (minibufferp (current-buffer)))
-                                                     (auto-complete-mode 1))
-                                                   ))
+  auto-complete-mode (lambda ()
+                       (if (not (minibufferp (current-buffer)))
+                           (auto-complete-mode 1))
+                       ))
 (real-global-auto-complete-mode t)
 ;; ruby fold
 (add-hook 'ruby-mode-hook
           (lambda () (hs-minor-mode)))
 (eval-after-load "hideshow"
-                 '(add-to-list 'hs-special-modes-alist
-                               `(ruby-mode
-                                  ,(rx (or "def" "class" "module" "do" "{" "[")) ; Block start
-                                  ,(rx (or "}" "]" "end"))                       ; Block end
-                                  ,(rx (or "#" "=begin"))                        ; Comment start
-                                  ruby-forward-sexp nil)))
+  '(add-to-list 'hs-special-modes-alist
+                `(ruby-mode
+                  ,(rx (or "def" "class" "module" "do" "{" "[")) ; Block start
+                  ,(rx (or "}" "]" "end"))                       ; Block end
+                  ,(rx (or "#" "=begin"))                        ; Comment start
+                  ruby-forward-sexp nil)))
 
 (global-set-key (kbd "C-c h") 'hs-hide-block)
 (global-set-key (kbd "C-c s") 'hs-show-block)
@@ -129,7 +138,7 @@
 (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
 (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
 
-(setq x-select-enable-clipboard t)
+(setq select-enable-clipboard t)
 
 ;; autoindent width
 (setq indent-tabs-mode nil)
@@ -137,13 +146,6 @@
 (setq js-indent-level 2)
 (setq scss-indent-level 2)
 (setq css-indent-offset 2)
-
-(setq web-mode-css-indent-offset 2)
-(setq web-mode-scss-indent-offset 2)
-(setq web-mode-code-indent-offset 2)
-(setq web-mode-markup-indent-offset 2)
-(setq web-mode-enable-auto-pairing t)
-(setq web-mode-enable-auto-closing t)
 
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
       backup-by-copying t    ; Don't delink hardlinks
@@ -155,10 +157,11 @@
 (put 'dired-find-alternate-file 'disabled nil)
 
 (defun indent-buffer ()
-  "Indents an entire buffer using the default intenting scheme."
+  "Indent an entire buffer using the default intenting scheme."
   (interactive)
   (save-excursion
     (delete-trailing-whitespace)
     (indent-region (point-min) (point-max) nil)
     (untabify (point-min) (point-max))))
 (global-set-key "\C-x\\" 'indent-buffer)
+(global-set-key (kbd "C-c w") 'whitespace-mode)
