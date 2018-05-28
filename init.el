@@ -12,8 +12,7 @@
 
 
 ;; list the packages you want
-(setq package-list '(org
-                     counsel
+(setq package-list '(counsel
                      better-defaults
                      elpy
                      go-mode
@@ -45,15 +44,17 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-;;
+;; magit global key bindings
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
-
+;; org global key bindings
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cb" 'org-switchb)
+;; set ident tab
 (setq-default indent-tabs-mode nil)
 (setq ruby-insert-encoding-magic-comment nil)
-
-
-;; Use projectile-rails as global mode
 
 ;; web-mode
 (require 'web-mode)
