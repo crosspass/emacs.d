@@ -12,7 +12,11 @@
 
 
 ;; list the packages you want
-(setq package-list '(counsel
+(setq package-list '(goto-last-change
+                     yasnippet
+                     yasnippet-snippets
+                     minitest
+                     counsel
                      better-defaults
                      elpy
                      go-mode
@@ -37,7 +41,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (undohist auto-complete magit flylisp ag smartparens web-mode ## flycheck projectile-rails projectile))))
+    (goto-last-change ivy-yasnippet markdown-mode yaml-mode minitest undohist auto-complete magit flylisp ag smartparens web-mode ## flycheck projectile-rails projectile))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -168,3 +172,41 @@
     (untabify (point-min) (point-max))))
 (global-set-key "\C-x\\" 'indent-buffer)
 (global-set-key (kbd "C-c w") 'whitespace-mode)
+(put 'set-goal-column 'disabled nil)
+
+;; set flycheck
+(defun my/use-eslint-from-node-modules ()
+  (let* ((root (locate-dominating-file
+                 (or (buffer-file-name) default-directory)
+                 "node_modules"))
+         (eslint (and root
+                      (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                        root))))
+    (when (and eslint (file-executable-p eslint))
+      (setq-local flycheck-javascript-eslint-executable eslint))))
+
+(add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
+
+;; version of ivy-yank-word to yank from start of word
+(defun bjm/ivy-yank-whole-word ()
+  "Pull next word from buffer into search string."
+  (interactive)
+  (let (amend)
+    (with-ivy-window
+      ;;move to last word boundary
+      (re-search-backward "\\b")
+      (let ((pt (point))
+            (le (line-end-position)))
+        (forward-word 1)
+        (if (> (point) le)
+            (goto-char pt)
+          (setq amend (buffer-substring-no-properties pt (point))))))
+    (when amend
+      (insert (replace-regexp-in-string "  +" " " amend)))))
+
+;; bind it to M-j
+(define-key ivy-minibuffer-map (kbd "M-j") 'bjm/ivy-yank-whole-word)
+
+;;
+(global-set-key (kbd "C-c ,") 'goto-last-change)
+;;
