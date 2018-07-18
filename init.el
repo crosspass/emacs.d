@@ -215,7 +215,7 @@
   (save-excursion
     (let ((pos)
           (test-name))
-      (re-search-backward "test \'\\([^\"]+\\)\' do")
+      (re-search-backward "test [\'\"]\\([^\"]+\\)[\'\"] do")
       (setq test-name (buffer-substring-no-properties (match-beginning 1) (match-end 1)))
       (concat "test_" (replace-regexp-in-string " " "_" test-name)))))
 
