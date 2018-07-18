@@ -177,8 +177,8 @@
 ;; set flycheck
 (defun my/use-eslint-from-node-modules ()
   (let* ((root (locate-dominating-file
-                 (or (buffer-file-name) default-directory)
-                 "node_modules"))
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
          (eslint (and root
                       (expand-file-name "node_modules/eslint/bin/eslint.js"
                                         root))))
@@ -210,3 +210,36 @@
 ;;
 (global-set-key (kbd "C-c ,") 'goto-last-change)
 ;;
+
+(defun get-current-test-name ()
+  (save-excursion
+    (let ((pos)
+          (test-name))
+      (re-search-backward "test \'\\([^\"]+\\)\' do")
+      (setq test-name (buffer-substring-no-properties (match-beginning 1) (match-end 1)))
+      (concat "test_" (replace-regexp-in-string " " "_" test-name)))))
+
+
+(defun run-test-current-file ()
+  (interactive)
+  (let ((root-dir (projectile-project-root)))
+    (compile (format "%s/bin/rails test %s" root-dir (expand-file-name (buffer-file-name)) ))))
+
+(defun run-test-at-point ()
+  (interactive)
+  (let ((root-dir (projectile-project-root)))
+    (compile (format "%s/bin/rails test %s -n %s" root-dir (expand-file-name (buffer-file-name)) (get-current-test-name)))))
+
+(define-key projectile-rails-mode-map (kbd "C-c r ,") 'run-test-at-point)
+(define-key projectile-rails-mode-map (kbd "C-c r .") 'run-test-current-file)
+
+;; color for compile mode
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region compilation-filter-start (point))
+  (toggle-read-only))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
+(provide 'init)
+;;; 
