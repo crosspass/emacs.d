@@ -118,6 +118,9 @@
 ;; flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
+;; yasnippet
+(yas-global-mode 1)
+
 (require 'ido)
 (ido-mode t)
 
@@ -174,7 +177,7 @@
 (global-set-key (kbd "C-c w") 'whitespace-mode)
 (put 'set-goal-column 'disabled nil)
 
-;; set flycheck
+;; set flycheck for eslint
 (defun my/use-eslint-from-node-modules ()
   (let* ((root (locate-dominating-file
                 (or (buffer-file-name) default-directory)
