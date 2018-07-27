@@ -12,7 +12,8 @@
 
 
 ;; list the packages you want
-(setq package-list '(goto-last-change
+(setq package-list '(bundler
+                     goto-last-change
                      yasnippet
                      yasnippet-snippets
                      minitest
@@ -41,7 +42,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (goto-last-change ivy-yasnippet markdown-mode yaml-mode minitest undohist auto-complete magit flylisp ag smartparens web-mode ## flycheck projectile-rails projectile))))
+    (bundler goto-last-change ivy-yasnippet markdown-mode yaml-mode minitest undohist auto-complete magit flylisp ag smartparens web-mode ## flycheck projectile-rails projectile))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -245,4 +246,4 @@
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 (provide 'init)
-;;; 
+;;;
