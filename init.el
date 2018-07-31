@@ -245,5 +245,9 @@
   (toggle-read-only))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
+;; hide menu bar
+(unless (display-graphic-p)
+   (menu-bar-mode -1))
+
 (provide 'init)
 ;;;

@@ -1,0 +1,15 @@
+# -*- mode: web -*-
+# name: dialog
+# key: dialog
+# --
+<div class="modal" id="$1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+      </div>
+      <div class="modal-body">
+      $0
+      </div>
+    </div>
+  </div>
+</div>

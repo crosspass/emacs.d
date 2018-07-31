@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: magic#str
+# key: magic#str
+# --
+# frozen_string_literal: true
