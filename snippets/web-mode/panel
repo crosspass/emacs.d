@@ -1,0 +1,11 @@
+# -*- mode: web -*-
+# key: panel
+# name: panel
+# --
+<div class="panel">
+  <div class="panel-header">
+  </div>
+  <div class="panel-body">
+  $0
+  </div>
+</div>

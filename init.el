@@ -12,7 +12,8 @@
 
 
 ;; list the packages you want
-(setq package-list '(bundler
+(setq package-list '(meghanada
+                     bundler
                      goto-last-change
                      yasnippet
                      yasnippet-snippets
@@ -42,7 +43,8 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (bundler goto-last-change ivy-yasnippet markdown-mode yaml-mode minitest undohist auto-complete magit flylisp ag smartparens web-mode ## flycheck projectile-rails projectile))))
+    (bundler goto-last-change ivy-yasnippet markdown-mode yaml-mode minitest undohist auto-complete magit flylisp ag smartparens web-mode ## flycheck projectile-rails projectile)))
+ '(send-mail-function (quote mailclient-send-it)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -73,6 +75,23 @@
 (setq web-mode-markup-indent-offset 2)
 (setq web-mode-enable-auto-pairing t)
 (setq web-mode-enable-auto-closing t)
+
+
+(add-hook 'java-mode-hook
+          (lambda ()
+            ;; meghanada-mode on
+            (meghanada-mode t)
+            (flycheck-mode +1)
+            (setq c-basic-offset 2)
+            ;; use code format
+            (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)))
+(cond
+  ((eq system-type 'windows-nt)
+   (setq meghanada-java-path (expand-file-name "bin/java.exe" (getenv "JAVA_HOME")))
+   (setq meghanada-maven-path "mvn.cmd"))
+  (t
+    (setq meghanada-java-path "java")
+    (setq meghanada-maven-path "mvn")))
 
 
 
