@@ -12,7 +12,11 @@
 
 
 ;; list the packages you want
-(setq package-list '(meghanada
+(setq package-list '(google-c-style
+                     autodisass-java-bytecode
+                     smartparens
+                     rainbow-delimiters
+                     meghanada
                      bundler
                      goto-last-change
                      yasnippet
@@ -80,20 +84,23 @@
 (add-hook 'java-mode-hook
           (lambda ()
             ;; meghanada-mode on
+            (google-set-c-style)
+            (google-make-newline-indent)
             (meghanada-mode t)
             (flycheck-mode +1)
+            (smartparens-mode t)
+            (rainbow-delimiters-mode t)
+            (highlight-symbol-mode t)
             (setq c-basic-offset 2)
             ;; use code format
             (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)))
 (cond
-  ((eq system-type 'windows-nt)
-   (setq meghanada-java-path (expand-file-name "bin/java.exe" (getenv "JAVA_HOME")))
-   (setq meghanada-maven-path "mvn.cmd"))
-  (t
-    (setq meghanada-java-path "java")
-    (setq meghanada-maven-path "mvn")))
-
-
+ ((eq system-type 'windows-nt)
+  (setq meghanada-java-path (expand-file-name "bin/java.exe" (getenv "JAVA_HOME")))
+  (setq meghanada-maven-path "mvn.cmd"))
+ (t
+  (setq meghanada-java-path "java")
+  (setq meghanada-maven-path "mvn")))
 
 ;; Use projectile as global mode
 ;; projectile
@@ -266,7 +273,9 @@
 
 ;; hide menu bar
 (unless (display-graphic-p)
-   (menu-bar-mode -1))
+  (menu-bar-mode -1))
+(add-hook 'java-mode-hook
+          (lambda ()
+            (define-key java-mode-map (kbkd "C-c r .") 'meghanada-exec-main)))
 
 (provide 'init)
-;;;
