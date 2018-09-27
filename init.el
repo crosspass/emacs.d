@@ -12,7 +12,8 @@
 
 
 ;; list the packages you want
-(setq package-list '(google-c-style
+(setq package-list '(rspec-mode
+                     google-c-style
                      autodisass-java-bytecode
                      smartparens
                      rainbow-delimiters
@@ -47,7 +48,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (bundler goto-last-change ivy-yasnippet markdown-mode yaml-mode minitest undohist auto-complete magit flylisp ag smartparens web-mode ## flycheck projectile-rails projectile)))
+    (rspec-mode bundler goto-last-change ivy-yasnippet markdown-mode yaml-mode minitest undohist auto-complete magit flylisp ag smartparens web-mode ## flycheck projectile-rails projectile)))
  '(send-mail-function (quote mailclient-send-it)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -238,7 +239,7 @@
 (define-key ivy-minibuffer-map (kbd "M-j") 'bjm/ivy-yank-whole-word)
 
 ;;
-(global-set-key (kbd "C-c ,") 'goto-last-change)
+(global-set-key (kbd "C-c .") 'goto-last-change)
 ;;
 
 (defun get-current-test-name ()
@@ -278,4 +279,8 @@
           (lambda ()
             (define-key java-mode-map (kbkd "C-c r .") 'meghanada-exec-main)))
 
+(require 'rspec-mode)
+(eval-after-load 'rspec-mode
+  '(rspec-install-snippets))
 (provide 'init)
+(put 'upcase-region 'disabled nil)
