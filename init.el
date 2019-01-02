@@ -10,19 +10,21 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
-
 ;; list the packages you want
 (setq package-list '(rspec-mode
+                     mmm-mode
+                     ssass-mode
                      google-c-style
-                     autodisass-java-bytecode
+                     ;; autodisass-java-bytecode
                      smartparens
                      rainbow-delimiters
-                     meghanada
+                     el-get
+                     ;; meghanada
                      bundler
                      goto-last-change
                      yasnippet
                      yasnippet-snippets
-                     minitest
+                     ;; minitest
                      counsel
                      better-defaults
                      elpy
@@ -35,12 +37,16 @@
                      flycheck
                      projectile
                      projectile-rails
+                     ;;vue-html-mode
+                     ;;vue-mode
                      ))
 ;; install the missing packages
 (dolist (package package-list)
   (unless (package-installed-p package)
     (package-install package)))
 
+(el-get-bundle crosspass/vue-html-mode)
+(el-get-bundle crosspass/vue-mode)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -48,7 +54,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (rspec-mode bundler goto-last-change ivy-yasnippet markdown-mode yaml-mode minitest undohist auto-complete magit flylisp ag smartparens web-mode ## flycheck projectile-rails projectile)))
+    (vue-html-mode rspec-mode bundler goto-last-change ivy-yasnippet markdown-mode yaml-mode minitest undohist auto-complete magit flylisp ag smartparens web-mode ## flycheck projectile-rails projectile)))
  '(send-mail-function (quote mailclient-send-it)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -82,26 +88,26 @@
 (setq web-mode-enable-auto-closing t)
 
 
-(add-hook 'java-mode-hook
-          (lambda ()
-            ;; meghanada-mode on
-            (google-set-c-style)
-            (google-make-newline-indent)
-            (meghanada-mode t)
-            (flycheck-mode +1)
-            (smartparens-mode t)
-            (rainbow-delimiters-mode t)
-            (highlight-symbol-mode t)
-            (setq c-basic-offset 2)
-            ;; use code format
-            (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)))
-(cond
- ((eq system-type 'windows-nt)
-  (setq meghanada-java-path (expand-file-name "bin/java.exe" (getenv "JAVA_HOME")))
-  (setq meghanada-maven-path "mvn.cmd"))
- (t
-  (setq meghanada-java-path "java")
-  (setq meghanada-maven-path "mvn")))
+; (add-hook 'java-mode-hook
+;           (lambda ()
+;             ;; meghanada-mode on
+;             (google-set-c-style)
+;             (google-make-newline-indent)
+;             (meghanada-mode t)
+;             (flycheck-mode +1)
+;             (smartparens-mode t)
+;             (rainbow-delimiters-mode t)
+;             (highlight-symbol-mode t)
+;             (setq c-basic-offset 2)
+;             ;; use code format
+;             (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)))
+; (cond
+;  ((eq system-type 'windows-nt)
+;   (setq meghanada-java-path (expand-file-name "bin/java.exe" (getenv "JAVA_HOME")))
+;   (setq meghanada-maven-path "mvn.cmd"))
+;  (t
+;   (setq meghanada-java-path "java")
+;   (setq meghanada-maven-path "mvn")))
 
 ;; Use projectile as global mode
 ;; projectile
@@ -134,8 +140,8 @@
 
 ;; Smartparens is a minor mode for dealing with pairs in Emacs.
 ;; https://github.com/Fuco1/smartparens
-;; (add-to-list 'load-path "~/.emacs.d/smartparens")
-;; (require 'smartparens-config)
+(require 'smartparens-config)
+smartparens-global-mode
 
 ;; python
 (elpy-enable)
@@ -275,12 +281,13 @@
 ;; hide menu bar
 (unless (display-graphic-p)
   (menu-bar-mode -1))
-(add-hook 'java-mode-hook
-          (lambda ()
-            (define-key java-mode-map (kbkd "C-c r .") 'meghanada-exec-main)))
+; (add-hook 'java-mode-hook
+;           (lambda ()
+;             (define-key java-mode-map (kbkd "C-c r .") 'meghanada-exec-main)))
 
 (require 'rspec-mode)
 (eval-after-load 'rspec-mode
   '(rspec-install-snippets))
 (provide 'init)
 (put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
