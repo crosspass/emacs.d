@@ -37,16 +37,12 @@
                      flycheck
                      projectile
                      projectile-rails
-                     ;;vue-html-mode
-                     ;;vue-mode
                      ))
 ;; install the missing packages
 (dolist (package package-list)
   (unless (package-installed-p package)
     (package-install package)))
 
-(el-get-bundle crosspass/vue-html-mode)
-(el-get-bundle crosspass/vue-mode)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -78,6 +74,7 @@
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
 
 (setq web-mode-enable-current-column-highlight t)
 (setq web-mode-css-indent-offset 2)
@@ -291,3 +288,4 @@ smartparens-global-mode
 (provide 'init)
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
+(flycheck-add-mode 'javascript-eslint 'web-mode)
