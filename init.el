@@ -31,6 +31,8 @@
                      go-mode
                      undo-tree
                      auto-complete
+                     go-autocomplete
+                     go-eldoc
                      magit
                      ag
                      web-mode
@@ -50,7 +52,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (vue-html-mode rspec-mode bundler goto-last-change ivy-yasnippet markdown-mode yaml-mode minitest undohist auto-complete magit flylisp ag smartparens web-mode ## flycheck projectile-rails projectile)))
+    (toml-mode go-eldoc golint vue-html-mode rspec-mode bundler goto-last-change ivy-yasnippet markdown-mode yaml-mode minitest undohist auto-complete magit flylisp ag smartparens web-mode ## flycheck projectile-rails projectile)))
  '(send-mail-function (quote mailclient-send-it)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -58,6 +60,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
 ;; magit global key bindings
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
@@ -285,7 +288,15 @@ smartparens-global-mode
 (require 'rspec-mode)
 (eval-after-load 'rspec-mode
   '(rspec-install-snippets))
-(provide 'init)
+
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 (flycheck-add-mode 'javascript-eslint 'web-mode)
+
+(require 'go-autocomplete)
+(require 'auto-complete-config)
+;;(add-hook 'go-mode-hook 'go-eldoc-setup)
+(ac-config-default)
+
+(provide 'init)
+;;;
