@@ -11,14 +11,16 @@
   (package-refresh-contents))
 
 ;; list the packages you want
-(setq package-list '(rspec-mode
+(setq package-list '(afternoon-theme
+                     exec-path-from-shell
+                     rspec-mode
                      mmm-mode
                      ssass-mode
                      google-c-style
                      ;; autodisass-java-bytecode
                      smartparens
-                     rainbow-delimiters
-                     el-get
+                     ;; rainbow-delimiters
+                     ;; el-get
                      ;; meghanada
                      bundler
                      goto-last-change
@@ -325,5 +327,9 @@ smartparens-global-mode
    ;; you may want to add different for other charset in this way.
    )
 (load-theme 'afternoon)
+(when (memq window-system '(mac ns))
+    (exec-path-from-shell-initialize)
+      (exec-path-from-shell-copy-env "GOPATH"))
+
 (provide 'init)
 ;;;
