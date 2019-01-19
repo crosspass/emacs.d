@@ -2,6 +2,7 @@
 ;; installed packages.  Don't delete this line.  If you don't want it,
 
 ;; You may delete these explanatory comments.
+;;; code:
 (setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
                          ("melpa" . "http://elpa.emacs-china.org/melpa/")))
 (package-initialize)
@@ -302,7 +303,7 @@ smartparens-global-mode
 
 (require 'go-autocomplete)
 (require 'auto-complete-config)
-;;(add-hook 'go-mode-hook 'go-eldoc-setup)
+(add-hook 'go-mode-hook 'go-eldoc-setup)
 (ac-config-default)
 (menu-bar-mode -1)
 (toggle-scroll-bar -1)
