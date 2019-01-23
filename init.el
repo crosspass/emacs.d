@@ -12,7 +12,8 @@
   (package-refresh-contents))
 
 ;; list the packages you want
-(setq package-list '(afternoon-theme
+(setq package-list '(xterm-color
+                     afternoon-theme
                      exec-path-from-shell
                      rspec-mode
                      mmm-mode
@@ -55,13 +56,14 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
+   [default bold shadow italic underline bold bold-italic bold])
  '(custom-safe-themes
    (quote
     ("3d5ef3d7ed58c9ad321f05360ad8a6b24585b9c49abcee67bdcbb0fe583a6950" "b3775ba758e7d31f3bb849e7c9e48ff60929a792961a2d536edec8f68c671ca5" "9b59e147dbbde5e638ea1cde5ec0a358d5f269d27bd2b893a0947c4a867e14c1" "2540689fd0bc5d74c4682764ff6c94057ba8061a98be5dd21116bf7bf301acfb" "2df493c5c7f329eef362290abdcd42a45abad98ffe33f639ecc55af084224e8b" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "73c69e346ec1cb3d1508c2447f6518a6e582851792a8c0e57a22d6b9948071b4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" default)))
+ '(debug-on-error t)
  '(package-selected-packages
    (quote
-    (sublime-themes afternoon-theme solarized-theme toml-mode go-eldoc golint vue-html-mode rspec-mode bundler goto-last-change ivy-yasnippet markdown-mode yaml-mode minitest undohist auto-complete magit flylisp ag smartparens web-mode ## flycheck projectile-rails projectile)))
+    (google-c-style ssass-mode mmm-mode exec-path-from-shell sublime-themes afternoon-theme solarized-theme toml-mode go-eldoc golint vue-html-mode rspec-mode bundler goto-last-change ivy-yasnippet markdown-mode yaml-mode minitest undohist auto-complete magit flylisp ag smartparens web-mode ## flycheck projectile-rails projectile)))
  '(send-mail-function (quote mailclient-send-it)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -77,7 +79,7 @@
 
 ;; magit global key bindings
 (global-set-key (kbd "C-x g") 'magit-status)
-(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
+;; (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 ;; org global key bindings
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
@@ -102,26 +104,26 @@
 (setq web-mode-enable-auto-closing t)
 
 
-                                        ; (add-hook 'java-mode-hook
-                                        ;           (lambda ()
-                                        ;             ;; meghanada-mode on
-                                        ;             (google-set-c-style)
-                                        ;             (google-make-newline-indent)
-                                        ;             (meghanada-mode t)
-                                        ;             (flycheck-mode +1)
-                                        ;             (smartparens-mode t)
-                                        ;             (rainbow-delimiters-mode t)
-                                        ;             (highlight-symbol-mode t)
-                                        ;             (setq c-basic-offset 2)
-                                        ;             ;; use code format
-                                        ;             (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)))
-                                        ; (cond
-                                        ;  ((eq system-type 'windows-nt)
-                                        ;   (setq meghanada-java-path (expand-file-name "bin/java.exe" (getenv "JAVA_HOME")))
-                                        ;   (setq meghanada-maven-path "mvn.cmd"))
-                                        ;  (t
-                                        ;   (setq meghanada-java-path "java")
-                                        ;   (setq meghanada-maven-path "mvn")))
+;; (add-hook 'java-mode-hook
+;;           (lambda ()
+;;             ;; meghanada-mode on
+;;             (google-set-c-style)
+;;             (google-make-newline-indent)
+;;             (meghanada-mode t)
+;;             (flycheck-mode +1)
+;;             (smartparens-mode t)
+;;             (rainbow-delimiters-mode t)
+;;             (highlight-symbol-mode t)
+;;             (setq c-basic-offset 2)
+;;             ;; use code format
+;;             (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)))
+;; (cond
+;;  ((eq system-type 'windows-nt)
+;;   (setq meghanada-java-path (expand-file-name "bin/java.exe" (getenv "JAVA_HOME")))
+;;   (setq meghanada-maven-path "mvn.cmd"))
+;;  (t
+;;   (setq meghanada-java-path "java")
+;;   (setq meghanada-maven-path "mvn")))
 
 ;; Use projectile as global mode
 ;; projectile
@@ -286,19 +288,49 @@ smartparens-global-mode
 (define-key projectile-rails-mode-map (kbd "C-c r .") 'run-test-current-file)
 
 ;; color for compile mode
-(require 'ansi-color)
-(defun colorize-compilation-buffer ()
-  (toggle-read-only)
-  (ansi-color-apply-on-region compilation-filter-start (point))
-  (toggle-read-only))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+;; (require 'ansi-color)
+;; (defun colorize-compilation-buffer ()
+;;   (toggle-read-only)
+;;   (ansi-color-apply-on-region compilation-filter-start (point))
+;;   (toggle-read-only))
+;; (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
-;; hide menu bar
-(unless (display-graphic-p)
-  (menu-bar-mode -1))
-                                        ; (add-hook 'java-mode-hook
-                                        ;           (lambda ()
-                                        ;             (define-key java-mode-map (kbkd "C-c r .") 'meghanada-exec-main)))
+;; (add-hook 'java-mode-hook
+;;           (lambda ()
+;;             (define-key java-mode-map (kbkd "C-c r .") 'meghanada-exec-main)))
+(setq comint-output-filter-functions
+      (remove 'ansi-color-process-output comint-output-filter-functions))
+
+(add-hook 'shell-mode-hook
+          (lambda () (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
+
+;; Also set TERM accordingly (xterm-256color)
+
+;; You can also use it with eshell (and thus get color output from system ls):
+
+(require 'eshell)
+
+(add-hook 'eshell-before-prompt-hook
+          (lambda ()
+            (setq xterm-color-preserve-properties t)))
+
+(add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
+(setq eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions))
+;;  Don't forget to setenv TERM xterm-256color
+(setq compilation-environment '("TERM=xterm-256color"))
+(add-hook 'compilation-start-hook
+          (lambda (proc)
+            ;; We need to differentiate between compilation-mode buffers
+            ;; and running as part of comint (which at this point we assume
+            ;; has been configured separately for xterm-color)
+            (when (eq (process-filter proc) 'compilation-filter)
+              ;; This is a process associated with a compilation-mode buffer.
+              ;; We may call `xterm-color-filter' before its own filter function.
+              (set-process-filter
+               proc
+               (lambda (proc string)
+                 (funcall 'compilation-filter proc
+                          (xterm-color-filter string)))))))
 
 (require 'rspec-mode)
 (eval-after-load 'rspec-mode
