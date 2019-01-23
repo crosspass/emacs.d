@@ -36,6 +36,7 @@
                      auto-complete
                      go-autocomplete
                      go-eldoc
+                     go-errcheck
                      magit
                      ag
                      web-mode
@@ -55,7 +56,7 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
-  '(custom-safe-themes
+ '(custom-safe-themes
    (quote
     ("3d5ef3d7ed58c9ad321f05360ad8a6b24585b9c49abcee67bdcbb0fe583a6950" "b3775ba758e7d31f3bb849e7c9e48ff60929a792961a2d536edec8f68c671ca5" "9b59e147dbbde5e638ea1cde5ec0a358d5f269d27bd2b893a0947c4a867e14c1" "2540689fd0bc5d74c4682764ff6c94057ba8061a98be5dd21116bf7bf301acfb" "2df493c5c7f329eef362290abdcd42a45abad98ffe33f639ecc55af084224e8b" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "73c69e346ec1cb3d1508c2447f6518a6e582851792a8c0e57a22d6b9948071b4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" default)))
  '(package-selected-packages
@@ -68,6 +69,11 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(load-theme 'afternoon)
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-env "GOPATH"))
 
 ;; magit global key bindings
 (global-set-key (kbd "C-x g") 'magit-status)
@@ -96,30 +102,31 @@
 (setq web-mode-enable-auto-closing t)
 
 
-; (add-hook 'java-mode-hook
-;           (lambda ()
-;             ;; meghanada-mode on
-;             (google-set-c-style)
-;             (google-make-newline-indent)
-;             (meghanada-mode t)
-;             (flycheck-mode +1)
-;             (smartparens-mode t)
-;             (rainbow-delimiters-mode t)
-;             (highlight-symbol-mode t)
-;             (setq c-basic-offset 2)
-;             ;; use code format
-;             (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)))
-; (cond
-;  ((eq system-type 'windows-nt)
-;   (setq meghanada-java-path (expand-file-name "bin/java.exe" (getenv "JAVA_HOME")))
-;   (setq meghanada-maven-path "mvn.cmd"))
-;  (t
-;   (setq meghanada-java-path "java")
-;   (setq meghanada-maven-path "mvn")))
+                                        ; (add-hook 'java-mode-hook
+                                        ;           (lambda ()
+                                        ;             ;; meghanada-mode on
+                                        ;             (google-set-c-style)
+                                        ;             (google-make-newline-indent)
+                                        ;             (meghanada-mode t)
+                                        ;             (flycheck-mode +1)
+                                        ;             (smartparens-mode t)
+                                        ;             (rainbow-delimiters-mode t)
+                                        ;             (highlight-symbol-mode t)
+                                        ;             (setq c-basic-offset 2)
+                                        ;             ;; use code format
+                                        ;             (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)))
+                                        ; (cond
+                                        ;  ((eq system-type 'windows-nt)
+                                        ;   (setq meghanada-java-path (expand-file-name "bin/java.exe" (getenv "JAVA_HOME")))
+                                        ;   (setq meghanada-maven-path "mvn.cmd"))
+                                        ;  (t
+                                        ;   (setq meghanada-java-path "java")
+                                        ;   (setq meghanada-maven-path "mvn")))
 
 ;; Use projectile as global mode
 ;; projectile
-(projectile-mode)
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 ;; Use projectile-rails as global mode
 ;; You can use Projectile's commands for greping (or acking) files, run tests, switch between projects, etc
@@ -289,9 +296,9 @@ smartparens-global-mode
 ;; hide menu bar
 (unless (display-graphic-p)
   (menu-bar-mode -1))
-; (add-hook 'java-mode-hook
-;           (lambda ()
-;             (define-key java-mode-map (kbkd "C-c r .") 'meghanada-exec-main)))
+                                        ; (add-hook 'java-mode-hook
+                                        ;           (lambda ()
+                                        ;             (define-key java-mode-map (kbkd "C-c r .") 'meghanada-exec-main)))
 
 (require 'rspec-mode)
 (eval-after-load 'rspec-mode
@@ -305,32 +312,32 @@ smartparens-global-mode
 (require 'auto-complete-config)
 (add-hook 'go-mode-hook 'go-eldoc-setup)
 (ac-config-default)
-(menu-bar-mode -1)
-(toggle-scroll-bar -1)
-(tool-bar-mode -1)
- (when (eq system-type 'darwin)
 
-   ;; default Latin font (e.g. Consolas)
-   (set-face-attribute 'default nil :family "Monaco")
+(if (display-graphic-p)
+    (progn
+      (tool-bar-mode -1)
+      (scroll-bar-mode -1)
+      (menu-bar-mode -1)))
 
-   ;; default font size (point * 10)
-   ;;
-   ;; WARNING!  Depending on the default font,
-   ;; if the size is not supported very well, the frame will be clipped
-   ;; so that the beginning of the buffer may not be visible correctly. 
-   (set-face-attribute 'default nil :height 150)
+(when (eq system-type 'darwin)
 
-   ;; use specific font for Korean charset.
-   ;; if you want to use different font size for specific charset,
-   ;; add :size POINT-SIZE in the font-spec.
-   (set-fontset-font t 'hangul (font-spec :name "NanumGothicCoding"))
+  ;; default Latin font (e.g. Consolas)
+  (set-face-attribute 'default nil :family "Monaco")
 
-   ;; you may want to add different for other charset in this way.
-   )
-(load-theme 'afternoon)
-(when (memq window-system '(mac ns))
-    (exec-path-from-shell-initialize)
-      (exec-path-from-shell-copy-env "GOPATH"))
+  ;; default font size (point * 10)
+  ;;
+  ;; WARNING!  Depending on the default font,
+  ;; if the size is not supported very well, the frame will be clipped
+  ;; so that the beginning of the buffer may not be visible correctly.
+  (set-face-attribute 'default nil :height 150)
+
+  ;; use specific font for Korean charset.
+  ;; if you want to use different font size for specific charset,
+  ;; add :size POINT-SIZE in the font-spec.
+  ;; (set-fontset-font t 'hangul (font-spec :name "NanumGothicCoding"))
+
+  ;; you may want to add different for other charset in this way.
+  )
 
 (provide 'init)
 ;;;
