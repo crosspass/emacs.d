@@ -38,12 +38,14 @@
                      go-autocomplete
                      go-eldoc
                      go-errcheck
+                     go-add-tags
                      magit
                      ag
                      web-mode
                      flycheck
                      projectile
                      projectile-rails
+                     yaml-mode
                      ))
 ;; install the missing packages
 (dolist (package package-list)
@@ -63,7 +65,7 @@
  '(debug-on-error t)
  '(package-selected-packages
    (quote
-    (google-c-style ssass-mode mmm-mode exec-path-from-shell sublime-themes afternoon-theme solarized-theme toml-mode go-eldoc golint vue-html-mode rspec-mode bundler goto-last-change ivy-yasnippet markdown-mode yaml-mode minitest undohist auto-complete magit flylisp ag smartparens web-mode ## flycheck projectile-rails projectile)))
+    (go-add-tags google-c-style ssass-mode mmm-mode exec-path-from-shell sublime-themes afternoon-theme solarized-theme toml-mode go-eldoc golint vue-html-mode rspec-mode bundler goto-last-change ivy-yasnippet markdown-mode yaml-mode minitest undohist auto-complete magit flylisp ag smartparens web-mode ## flycheck projectile-rails projectile)))
  '(send-mail-function (quote mailclient-send-it)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
