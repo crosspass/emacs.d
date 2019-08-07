@@ -46,6 +46,7 @@
                      projectile
                      projectile-rails
                      yaml-mode
+                     markdown-mode
                      ))
 ;; install the missing packages
 (dolist (package package-list)
@@ -65,7 +66,8 @@
  '(debug-on-error t)
  '(package-selected-packages
    (quote
-    (go-add-tags google-c-style ssass-mode mmm-mode exec-path-from-shell sublime-themes afternoon-theme solarized-theme toml-mode go-eldoc golint vue-html-mode rspec-mode bundler goto-last-change ivy-yasnippet markdown-mode yaml-mode minitest undohist auto-complete magit flylisp ag smartparens web-mode ## flycheck projectile-rails projectile)))
+    (bison-mode go-add-tags google-c-style ssass-mode mmm-mode exec-path-from-shell sublime-themes afternoon-theme solarized-theme toml-mode go-eldoc golint vue-html-mode rspec-mode bundler goto-last-change ivy-yasnippet markdown-mode yaml-mode minitest undohist auto-complete magit flylisp ag smartparens web-mode ## flycheck projectile-rails projectile)))
+ '(safe-local-variable-values (quote ((whitespace-line-column . 80))))
  '(send-mail-function (quote mailclient-send-it)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -340,7 +342,6 @@ smartparens-global-mode
 
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
-(flycheck-add-mode 'javascript-eslint 'web-mode)
 
 (require 'go-autocomplete)
 (require 'auto-complete-config)
@@ -375,3 +376,4 @@ smartparens-global-mode
 
 (provide 'init)
 ;;;
+(put 'narrow-to-region 'disabled nil)
