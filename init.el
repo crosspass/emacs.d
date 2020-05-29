@@ -48,6 +48,7 @@
                      projectile-rails
                      yaml-mode
                      markdown-mode
+                     eslint-fix
                      ))
 ;; install the missing packages
 (dolist (package package-list)
@@ -250,6 +251,8 @@ smartparens-global-mode
       (setq-local flycheck-javascript-eslint-executable eslint))))
 
 (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
+;; overiide eslint-fix-executable path
+(setq eslint-fix-executable flycheck-javascript-eslint-executable)
 
 ;; version of ivy-yank-word to yank from start of word
 (defun bjm/ivy-yank-whole-word ()
