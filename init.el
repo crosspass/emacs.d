@@ -67,7 +67,7 @@
  '(debug-on-error t)
  '(package-selected-packages
    (quote
-    (eslint-fix rjsx-mode rubocop bison-mode go-add-tags google-c-style ssass-mode mmm-mode exec-path-from-shell sublime-themes afternoon-theme solarized-theme toml-mode go-eldoc golint vue-html-mode rspec-mode bundler goto-last-change ivy-yasnippet markdown-mode yaml-mode minitest undohist auto-complete magit flylisp ag smartparens web-mode ## flycheck projectile-rails projectile)))
+    (gradle-mode move-text flow-js2-mode editorconfig eslint-fix rjsx-mode rubocop bison-mode go-add-tags google-c-style ssass-mode mmm-mode exec-path-from-shell sublime-themes afternoon-theme solarized-theme toml-mode go-eldoc golint vue-html-mode rspec-mode bundler goto-last-change ivy-yasnippet markdown-mode yaml-mode minitest undohist auto-complete magit flylisp ag smartparens web-mode ## flycheck projectile-rails projectile)))
  '(safe-local-variable-values (quote ((whitespace-line-column . 80))))
  '(send-mail-function (quote mailclient-send-it)))
 (custom-set-faces
@@ -166,6 +166,9 @@
 ;; https://github.com/Fuco1/smartparens
 (require 'smartparens-config)
 smartparens-global-mode
+
+;; move text
+(move-text-default-bindings)
 
 ;; python
 (elpy-enable)
@@ -377,6 +380,8 @@ smartparens-global-mode
   ;; you may want to add different for other charset in this way.
   )
 
+;; enable editorconfig
+(editorconfig-mode 1)
 (provide 'init)
 ;;;
 (put 'narrow-to-region 'disabled nil)
