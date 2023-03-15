@@ -3,9 +3,15 @@
 
 ;; You may delete these explanatory comments.
 ;;; code:
-(setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
-                         ("melpa" . "http://elpa.emacs-china.org/melpa/")))
+
+(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")) ;; installed by default
+(add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/")) ;; installed by default from Emacs 28 onwards
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+
 (package-initialize)
+
+(let ((default-directory  "~/.emacs.d/github"))
+  (normal-top-level-add-subdirs-to-load-path))
 
 ;; fetch the list of packages available
 (unless package-archive-contents
@@ -19,17 +25,12 @@
                      mmm-mode
                      ssass-mode
                      google-c-style
-                     ;; autodisass-java-bytecode
                      smartparens
-                     ;; rainbow-delimiters
-                     ;; el-get
-                     ;; meghanada
                      rjsx-mode
                      bundler
                      goto-last-change
                      yasnippet
                      yasnippet-snippets
-                     ;; minitest
                      counsel
                      better-defaults
                      elpy
@@ -63,20 +64,18 @@
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
  '(custom-safe-themes
-   (quote
-    ("3d5ef3d7ed58c9ad321f05360ad8a6b24585b9c49abcee67bdcbb0fe583a6950" "b3775ba758e7d31f3bb849e7c9e48ff60929a792961a2d536edec8f68c671ca5" "9b59e147dbbde5e638ea1cde5ec0a358d5f269d27bd2b893a0947c4a867e14c1" "2540689fd0bc5d74c4682764ff6c94057ba8061a98be5dd21116bf7bf301acfb" "2df493c5c7f329eef362290abdcd42a45abad98ffe33f639ecc55af084224e8b" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "73c69e346ec1cb3d1508c2447f6518a6e582851792a8c0e57a22d6b9948071b4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" default)))
+   '("57e3f215bef8784157991c4957965aa31bac935aca011b29d7d8e113a652b693" "3d5ef3d7ed58c9ad321f05360ad8a6b24585b9c49abcee67bdcbb0fe583a6950" "b3775ba758e7d31f3bb849e7c9e48ff60929a792961a2d536edec8f68c671ca5" "9b59e147dbbde5e638ea1cde5ec0a358d5f269d27bd2b893a0947c4a867e14c1" "2540689fd0bc5d74c4682764ff6c94057ba8061a98be5dd21116bf7bf301acfb" "2df493c5c7f329eef362290abdcd42a45abad98ffe33f639ecc55af084224e8b" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "73c69e346ec1cb3d1508c2447f6518a6e582851792a8c0e57a22d6b9948071b4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" default))
  '(debug-on-error t)
  '(package-selected-packages
-   (quote
-    (rubocopfmt gradle-mode move-text flow-js2-mode editorconfig eslint-fix rjsx-mode rubocop bison-mode go-add-tags google-c-style ssass-mode mmm-mode exec-path-from-shell sublime-themes afternoon-theme solarized-theme toml-mode go-eldoc golint vue-html-mode rspec-mode bundler goto-last-change ivy-yasnippet markdown-mode yaml-mode minitest undohist auto-complete magit flylisp ag smartparens web-mode ## flycheck projectile-rails projectile)))
- '(safe-local-variable-values (quote ((whitespace-line-column . 80))))
- '(send-mail-function (quote mailclient-send-it)))
+   '(yasnippet-snippets zpl-mode lsp-ui eglot graphql-mode origami coverlay tree-sitter tide gradle-mode flow-js2-mode editorconfig eslint-fix rubocop bison-mode go-add-tags google-c-style ssass-mode exec-path-from-shell sublime-themes afternoon-theme solarized-theme toml-mode go-eldoc golint vue-html-mode bundler goto-last-change ivy-yasnippet minitest undohist auto-complete flylisp ag ## flycheck))
+ '(safe-local-variable-values '((whitespace-line-column . 80)))
+ '(send-mail-function 'mailclient-send-it))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:background nil)))))
 
 (load-theme 'afternoon)
 (when (memq window-system '(mac ns))
@@ -111,27 +110,6 @@
 
 ;; JS configure
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-
-;; (add-hook 'java-mode-hook
-;;           (lambda ()
-;;             ;; meghanada-mode on
-;;             (google-set-c-style)
-;;             (google-make-newline-indent)
-;;             (meghanada-mode t)
-;;             (flycheck-mode +1)
-;;             (smartparens-mode t)
-;;             (rainbow-delimiters-mode t)
-;;             (highlight-symbol-mode t)
-;;             (setq c-basic-offset 2)
-;;             ;; use code format
-;;             (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)))
-;; (cond
-;;  ((eq system-type 'windows-nt)
-;;   (setq meghanada-java-path (expand-file-name "bin/java.exe" (getenv "JAVA_HOME")))
-;;   (setq meghanada-maven-path "mvn.cmd"))
-;;  (t
-;;   (setq meghanada-java-path "java")
-;;   (setq meghanada-maven-path "mvn")))
 
 ;; Use projectile as global mode
 ;; projectile
@@ -278,28 +256,6 @@ smartparens-global-mode
 (global-set-key (kbd "C-c .") 'goto-last-change)
 ;;
 
-(defun get-current-test-name ()
-  (save-excursion
-    (let ((pos)
-          (test-name))
-      (re-search-backward "test [\'\"]\\([^\"]+\\)[\'\"] do")
-      (setq test-name (buffer-substring-no-properties (match-beginning 1) (match-end 1)))
-      (concat "test_" (replace-regexp-in-string " " "_" test-name)))))
-
-
-(defun run-test-current-file ()
-  (interactive)
-  (let ((root-dir (projectile-project-root)))
-    (compile (format "%s/bin/rails test %s" root-dir (expand-file-name (buffer-file-name)) ))))
-
-(defun run-test-at-point ()
-  (interactive)
-  (let ((root-dir (projectile-project-root)))
-    (compile (format "%s/bin/rails test %s -n %s" root-dir (expand-file-name (buffer-file-name)) (get-current-test-name)))))
-
-(define-key projectile-rails-mode-map (kbd "C-c r ,") 'run-test-at-point)
-(define-key projectile-rails-mode-map (kbd "C-c r .") 'run-test-current-file)
-
 ;; color for compile mode
 ;; (require 'ansi-color)
 ;; (defun colorize-compilation-buffer ()
@@ -314,36 +270,14 @@ smartparens-global-mode
 (setq comint-output-filter-functions
       (remove 'ansi-color-process-output comint-output-filter-functions))
 
-(add-hook 'shell-mode-hook
-          (lambda () (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
+;; (add-hook 'shell-mode-hook
+;;           (lambda () (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
 
 ;; Also set TERM accordingly (xterm-256color)
 
 ;; You can also use it with eshell (and thus get color output from system ls):
 
 (require 'eshell)
-
-(add-hook 'eshell-before-prompt-hook
-          (lambda ()
-            (setq xterm-color-preserve-properties t)))
-
-(add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
-(setq eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions))
-;;  Don't forget to setenv TERM xterm-256color
-(setq compilation-environment '("TERM=xterm-256color"))
-(add-hook 'compilation-start-hook
-          (lambda (proc)
-            ;; We need to differentiate between compilation-mode buffers
-            ;; and running as part of comint (which at this point we assume
-            ;; has been configured separately for xterm-color)
-            (when (eq (process-filter proc) 'compilation-filter)
-              ;; This is a process associated with a compilation-mode buffer.
-              ;; We may call `xterm-color-filter' before its own filter function.
-              (set-process-filter
-               proc
-               (lambda (proc string)
-                 (funcall 'compilation-filter proc
-                          (xterm-color-filter string)))))))
 
 (require 'rspec-mode)
 (eval-after-load 'rspec-mode
@@ -356,6 +290,12 @@ smartparens-global-mode
 (require 'auto-complete-config)
 (add-hook 'go-mode-hook 'go-eldoc-setup)
 (ac-config-default)
+
+
+(require 'tree-sitter)
+(require 'tree-sitter-langs)
+(require 'tsx-mode)
+;; (tsx-mode t)
 
 (if (display-graphic-p)
     (progn
@@ -384,7 +324,6 @@ smartparens-global-mode
   )
 
 ;; enable editorconfig
-(editorconfig-mode 1)
 (provide 'init)
 ;;;
 (put 'narrow-to-region 'disabled nil)
