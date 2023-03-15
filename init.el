@@ -4,9 +4,15 @@
 ;; You may delete these explanatory comments.
 ;;; code:
 
-(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")) ;; installed by default
-(add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/")) ;; installed by default from Emacs 28 onwards
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+; (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")) ;; installed by default
+; (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/")) ;; installed by default from Emacs 28 onwards
+; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/") ;; GNU ELPA repository (Offical)
+                         ("melpa" . "https://melpa.org/packages/") ;; MELPA repository
+                         ("melpa-stable" . "https://stable.melpa.org/packages/") ;; MELPA Stable repository
+                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+                         ("org" . "http://orgmode.org/elpa/"))) ;; Org-mode's repository
 
 (package-initialize)
 
