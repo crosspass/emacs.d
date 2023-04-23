@@ -8,6 +8,12 @@
 ; (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/")) ;; installed by default from Emacs 28 onwards
 ; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
+;(setq url-proxy-services
+;   '(("no_proxy" . "^\\(localhost\\|10\\..*\\|192\\.168\\..*\\)")
+;     ("http" . "127.0.0.1:10080")
+;     ("https" . "127.0.0.1:10080")))
+
+
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/") ;; GNU ELPA repository (Offical)
                          ("melpa" . "https://melpa.org/packages/") ;; MELPA repository
                          ("melpa-stable" . "https://stable.melpa.org/packages/") ;; MELPA Stable repository
@@ -314,7 +320,12 @@ smartparens-global-mode
 
 
 (require 'tree-sitter)
+(require 'tree-sitter-hl)
 (require 'tree-sitter-langs)
+(require 'tree-sitter-debug)
+(require 'tree-sitter-query)
+(global-tree-sitter-mode)
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 (require 'tsx-mode)
 ;; (tsx-mode t)
 
